@@ -5,21 +5,37 @@ on:
 
 jobs:
   access_issue_info:
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Print Issue Information
+      - name: Make Script Executable
+        run: chmod +x scripts/script.sh
+
+      - name: Run Script
         env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ', ') }}
-          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OUTPUT_DIR: autocoder-artifact
         run: |
-          echo "Issue Title: $ISSUE_TITLE"
-          echo "Issue Number: $ISSUE_NUMBER"
-          echo "Issue Body: $ISSUE_BODY"
-          echo "Issue Assignees: $ISSUE_ASSIGNEES"
-          echo "Issue Labels: $ISSUE_LABELS"
+          ./scripts/script.sh
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: autocoder-artifact
+          path: autocoder-artifact
+          if-no-files-found: error
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: autocoder-artifact
+          path: autocoder-artifact
+
+      - name: List Artifact Contents
+        run: find autocoder-artifact -print

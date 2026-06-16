@@ -37,5 +37,5 @@ jobs:
           name: autocoder-artifact
           path: autocoder-artifact
 
-      - name: List Artifact Contents
+      - name: List Files Recursively
         run: find autocoder-artifact -print

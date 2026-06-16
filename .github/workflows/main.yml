@@ -25,11 +25,12 @@ jobs:
           ./scripts/script.sh
 
       - name: Upload Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: autocoder-artifact
           path: autocoder-artifact
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Download Artifact
         uses: actions/download-artifact@v4

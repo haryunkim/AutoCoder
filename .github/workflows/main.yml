@@ -38,4 +38,4 @@ jobs:
           path: autocoder-artifact
 
       - name: List Files Recursively
-        run: find autocoder-artifact -print
+        run: ls -R autocoder-artifact

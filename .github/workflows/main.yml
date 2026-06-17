@@ -41,3 +41,4 @@ jobs:
           branch: autocoder-branch-${{ github.event.issue.number }}
           base: main
           labels: autocoder-bot
+          title: "Add code snippets for issue #${{ github.event.issue.number }}"

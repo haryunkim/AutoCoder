@@ -3,13 +3,17 @@ on:
   issues:
     types: [opened, reopened, labeled]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   access_issue_info:
     if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Make Script Executable
         run: chmod +x scripts/script.sh
@@ -24,19 +28,16 @@ jobs:
         run: |
           ./scripts/script.sh
 
-      - name: Upload Artifact
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: autocoder-artifact
-          path: autocoder-artifact
-          if-no-files-found: warn
+      - name: Commit Changes
+        run: |
+          git config --local user.name "autocoder-bot"
+          git config --local user.email "actions@github.com"
+          git add .
+          git commit -m "Add code snippets for issue #${{ github.event.issue.number }}" || echo "No changes to commit"
 
-      - name: Download Artifact
-        uses: actions/download-artifact@v5
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
         with:
-          name: autocoder-artifact
-          path: autocoder-artifact
-
-      - name: List Files Recursively
-        run: ls -R autocoder-artifact
+          branch: autocoder-branch-${{ github.event.issue.number }}
+          base: main
+          labels: autocoder-bot

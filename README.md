@@ -66,6 +66,9 @@ jobs:
         if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'autocoder-bot')
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout repository
+                uses: actions/checkout@v4
+
             - name: Run AutoCoder action
                 uses: haryunkim/AutoCoder@v0.1.0
                 with:
@@ -85,6 +88,9 @@ jobs:
         if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'generate-code')
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout repository
+                uses: actions/checkout@v4
+
             - uses: haryunkim/AutoCoder@v0.1.0
                 with:
                     GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

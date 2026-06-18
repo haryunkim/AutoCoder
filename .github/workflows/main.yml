@@ -1,26 +1,24 @@
 name: AutoCoder Workflow
+
 on:
   issues:
-    types: [opened, reopened, labeled]
+    types: [labeled]
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  access_issue_info:
+  generate_code:
     if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v5
-
       - name: AutoCoder Composite Action
         uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LABEL: autocoder-bot
+          LABEL: 'autocoder-bot'
           REPOSITORY: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          SCRIPT_PATH: ./scripts/script.sh
+          SCRIPT_PATH: './scripts/script.sh'

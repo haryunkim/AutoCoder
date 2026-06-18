@@ -2,7 +2,7 @@ name: AutoCoder Workflow
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, reopened, labeled]
 
 permissions:
   contents: write

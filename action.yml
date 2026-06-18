@@ -43,10 +43,13 @@ runs:
       run: echo "Hello, welcome to AutoCoder! Let's generate some code."
       shell: bash
 
+    - name: Make Script Executable
+      run: chmod +x "${{ inputs.SCRIPT_PATH }}"
+      shell: bash
+
     - name: Generate Code from Issue
       run: |
         # The script that interacts with ChatGPT and generates code goes here.
-        chmod +x "${{ inputs.SCRIPT_PATH }}"
         bash "${{ inputs.SCRIPT_PATH }}" "${{ inputs.GITHUB_TOKEN }}" "${{ inputs.REPOSITORY }}" "${{ inputs.ISSUE_NUMBER }}" "${{ inputs.OPENAI_API_KEY }}"
       shell: bash
       env:

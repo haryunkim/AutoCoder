@@ -18,7 +18,7 @@ jobs:
       - name: Make Script Executable
         run: chmod +x scripts/script.sh
 
-      - name: Run Script
+      - name: Interact with ChatGPT and run script
         env:
           GITHUB_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}

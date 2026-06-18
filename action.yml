@@ -33,6 +33,11 @@ runs:
   using: 'composite'
   steps:
 
+    - name: Checkout Repository
+      uses: actions/checkout@v5
+      with:
+        token: ${{ inputs.GITHUB_TOKEN }}
+
     - name: Greet Users
       run: echo "Hello, welcome to AutoCoder! Let's generate some code."
       shell: bash

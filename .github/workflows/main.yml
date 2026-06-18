@@ -13,6 +13,9 @@ jobs:
     if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
       - name: AutoCoder Composite Action
         uses: ./
         with:

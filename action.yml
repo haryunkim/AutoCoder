@@ -53,15 +53,10 @@ runs:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
 
-    - name: Configure Git and Credentials
+    - name: Configure Git and Commit Generated Files
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "autocoder-bot"
-        git remote set-url origin https://x-access-token:${{ inputs.GITHUB_TOKEN }}@github.com/${{ inputs.REPOSITORY }}.git
-      shell: bash
-
-    - name: Commit Generated Files
-      run: |
         git add .
         git commit -m "AutoCoder: generated code for issue #${{ inputs.ISSUE_NUMBER }}" || echo "No changes to commit"
       shell: bash

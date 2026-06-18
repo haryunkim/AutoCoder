@@ -13,32 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
-
-      - name: Make Script Executable
-        run: chmod +x scripts/script.sh
+        uses: actions/checkout@v5
 
       - name: Interact with ChatGPT
-        env:
+        uses: ./
+        with:
           GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LABEL: autocoder-bot
           REPOSITORY: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OUTPUT_DIR: autocoder-artifact
-        run: |
-          ./scripts/script.sh
-
-      - name: Commit Changes
-        run: |
-          git config --local user.name "autocoder-bot"
-          git config --local user.email "actions@github.com"
-          git add .
-          git commit -m "Add code snippets for issue #${{ github.event.issue.number }}" || echo "No changes to commit"
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
-        with:
-          branch: autocoder-branch-${{ github.event.issue.number }}
-          base: main
-          labels: autocoder-bot
-          title: "Add code snippets for issue #${{ github.event.issue.number }}"
+          SCRIPT_PATH: ./scripts/script.sh

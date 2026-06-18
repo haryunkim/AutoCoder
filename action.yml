@@ -44,7 +44,7 @@ runs:
       run: echo "Hello, welcome to AutoCoder! Let's generate some code."
       shell: bash
 
-    - name: Interact with ChatGPT and Generate Code
+    - name: Interact with ChatGPT
       run: |
         chmod +x "${{ inputs.SCRIPT_PATH }}"
         bash "${{ inputs.SCRIPT_PATH }}" "${{ inputs.GITHUB_TOKEN }}" "${{ inputs.REPOSITORY }}" "${{ inputs.ISSUE_NUMBER }}" "${{ inputs.OPENAI_API_KEY }}"

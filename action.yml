@@ -39,17 +39,12 @@ runs:
         fetch-depth: 0
         persist-credentials: true
 
-    - name: Greet Users
-      run: echo "Hello, welcome to AutoCoder! Let's generate some code."
-      shell: bash
-
     - name: Make Script Executable
       run: chmod +x "${{ inputs.SCRIPT_PATH }}"
       shell: bash
 
     - name: Interact with ChatGPT
       run: |
-        # The script that interacts with ChatGPT and generates code goes here.
         bash "${{ inputs.SCRIPT_PATH }}" "${{ inputs.GITHUB_TOKEN }}" "${{ inputs.REPOSITORY }}" "${{ inputs.ISSUE_NUMBER }}" "${{ inputs.OPENAI_API_KEY }}"
       shell: bash
       env:

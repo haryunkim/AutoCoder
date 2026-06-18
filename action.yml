@@ -32,13 +32,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout Code
-      uses: actions/checkout@v5
-      with:
-        token: ${{ inputs.GITHUB_TOKEN }}
-        fetch-depth: 0
-        persist-credentials: true
-
     - name: Greet Users
       run: echo "Hello, welcome to AutoCoder! Let's generate some code."
       shell: bash
@@ -47,7 +40,7 @@ runs:
       run: chmod +x "${{ inputs.SCRIPT_PATH }}"
       shell: bash
 
-    - name: Generate Code from Issue
+    - name: Interact with ChatGPT
       run: |
         # The script that interacts with ChatGPT and generates code goes here.
         bash "${{ inputs.SCRIPT_PATH }}" "${{ inputs.GITHUB_TOKEN }}" "${{ inputs.REPOSITORY }}" "${{ inputs.ISSUE_NUMBER }}" "${{ inputs.OPENAI_API_KEY }}"

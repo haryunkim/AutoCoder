@@ -78,17 +78,16 @@ runs:
       shell: bash
       run: chmod +x "${{ github.action_path }}/${{ inputs.SCRIPT_PATH }}"
 
-    - name: Interact with ChatGPT
+    - name: Run AutoCoder script
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        REPOSITORY: ${{ inputs.REPOSITORY }}
-        ISSUE_NUMBER: ${{ inputs.ISSUE_NUMBER }}
-        OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
       run: |
-        echo "Interacting with ChatGPT through the OpenAI API."
-        "${{ github.action_path }}/${{ inputs.SCRIPT_PATH }}"
+        "${{ github.action_path }}/${{ inputs.SCRIPT_PATH }}" \
+          "${{ inputs.GITHUB_TOKEN }}" \
+          "${{ inputs.REPOSITORY }}" \
+          "${{ inputs.ISSUE_NUMBER }}" \
+          "${{ inputs.OPENAI_API_KEY }}"
 
     - name: Configure Git and commit generated files
       shell: bash

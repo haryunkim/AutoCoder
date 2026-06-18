@@ -6,7 +6,16 @@ set -e
 # log every command
 set -x
 
-# Get inputs from the environment
+# Allow either positional arguments or environment variables.
+# Args: 1=GITHUB_TOKEN 2=REPOSITORY 3=ISSUE_NUMBER 4=OPENAI_API_KEY
+if [ "$#" -ge 4 ]; then
+    GITHUB_TOKEN="$1"
+    REPOSITORY="$2"
+    ISSUE_NUMBER="$3"
+    OPENAI_API_KEY="$4"
+fi
+
+# Validate required inputs
 : "${GITHUB_TOKEN:?GITHUB_TOKEN is required}"
 : "${REPOSITORY:?REPOSITORY is required}"
 : "${ISSUE_NUMBER:?ISSUE_NUMBER is required}"

@@ -7,28 +7,18 @@ permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: autocoder-issue-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   access_issue_info:
-    if: >
-      github.event.issue.pull_request == null &&
-      github.actor != 'github-actions[bot]' &&
-      (
-        (github.event.action == 'labeled' && github.event.label.name == 'autocoder-bot') ||
-        ((github.event.action == 'opened' || github.event.action == 'reopened') && contains(github.event.issue.labels.*.name, 'autocoder-bot'))
-      )
+    if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
-      - name: Interact with ChatGPT
+      - name: AutoCoder Composite Action
         uses: ./
         with:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LABEL: autocoder-bot
           REPOSITORY: ${{ github.repository }}

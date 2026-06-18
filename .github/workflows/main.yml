@@ -12,13 +12,13 @@ jobs:
     if: contains(github.event.issue.labels.*.name, 'autocoder-bot')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v6
 
       - name: Make Script Executable
         run: chmod +x scripts/script.sh
 
-      - name: Interact with ChatGPT and run script
+      - name: Interact with ChatGPT
         env:
           GITHUB_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}

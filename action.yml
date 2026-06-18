@@ -86,7 +86,9 @@ runs:
         ISSUE_NUMBER: ${{ inputs.ISSUE_NUMBER }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
-      run: "${{ github.action_path }}/${{ inputs.SCRIPT_PATH }}"
+      run: |
+        echo "Interacting with ChatGPT through the OpenAI API."
+        "${{ github.action_path }}/${{ inputs.SCRIPT_PATH }}"
 
     - name: Configure Git and commit generated files
       shell: bash
